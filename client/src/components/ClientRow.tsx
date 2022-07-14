@@ -18,6 +18,14 @@ const ClientRow = ({ client }: Props) => {
 
     const [deleteClient, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation(DELETE_CLIENT, {
         variables: { id: client.id },
+        onCompleted({ deleteClient }) {
+            toast({
+                title: `Successfuly deleted ${deleteClient.name}`,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
+          },
         // COMM: refetchQueries make the queries to the server and uses the data to update the cache
         // refetchQueries: [
         //     // { query: GET_CLIENTS},
