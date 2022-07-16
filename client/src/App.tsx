@@ -1,11 +1,13 @@
 import { ChakraProvider, Container, VStack } from "@chakra-ui/react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "components/Header";
-import Clients from "components/Clients";
-import Projects from "components/Projects";
 
 import theme from "theme";
-import AddClientModal from "components/AddClientModal";
+
+import Home from "pages/Home";
+import ProjectPage from "pages/ProjectPage";
+import NotFound from "pages/NotFound";
 
 // const cache = new InMemoryCache({
 //   typePolicies: {
@@ -35,12 +37,16 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <ApolloProvider client={client}>
-        <Header />
-        <Container maxW="container.xl">
-          <AddClientModal />
-          <Projects />
-          <Clients/>
-        </Container>
+        <Router>
+          <Header />
+          <Container maxW="container.xl">
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='project/:id' element={<ProjectPage />} />
+              <Route path='*' element={<NotFound />} />
+            </Routes>
+          </Container>
+        </Router>
       </ApolloProvider>
     </ChakraProvider>
   );
