@@ -1,6 +1,8 @@
 // const {projects, clients} = require('../sampleData')
 
 const { GraphQLID, GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLList, GraphQLNonNull, GraphQLEnumType} = require('graphql')
+const { NonEmpyString, NonEmptyString } = require('../scalars/scalars' )
+
 
 // Mongoose models
 const Project = require('../models/Project')
@@ -90,9 +92,10 @@ const mutation = new GraphQLObjectType({
     addClient: {
       type: ClientType,
       args: {
-        name: {type: GraphQLNonNull(GraphQLString)},
-        email: {type: GraphQLNonNull(GraphQLString)},
-        phone: {type: GraphQLNonNull(GraphQLString)},
+        name: {type: NonEmptyString, required: true},
+        email: {type: NonEmptyString, required: true},
+        phone: {type: NonEmptyString, required: true},
+        // phone: {type: GraphQLNonNull(GraphQLString)},
       },
       resolve(parent, args) {
         const client = new Client ({

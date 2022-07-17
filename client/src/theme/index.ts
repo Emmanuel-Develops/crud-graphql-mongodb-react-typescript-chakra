@@ -13,6 +13,15 @@ const config: ThemeConfig = {
 // 3. extend the theme
 const theme = extendTheme({ 
     config,
+    fonts: {
+        body: 'Poppins, sans-serif',
+        heading: 'Lato',
+        roboto: 'Roboto, sans-serif',
+        lato: 'Lato, sans-serif',
+        overpass: 'Overpass, sans-serif',
+        poppins: 'Poppins, sans-serif',
+        ubuntu: 'Ubuntu, sans-serif',
+    },
     components: {
         Button: {
             variants: {
