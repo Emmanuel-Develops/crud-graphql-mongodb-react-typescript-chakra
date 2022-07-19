@@ -62,7 +62,7 @@ const AddClientModal = () => {
 
     const handleSubmit = () => {
       const {userName, email, phone} = userData
-      if (userName === '' || email ==='' || phone === '') {
+      if (userName === '' || email === '' || phone === '') {
         toast({
           title: `Unable to add client`,
           status: 'error',
