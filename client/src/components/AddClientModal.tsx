@@ -90,7 +90,7 @@ const AddClientModal = () => {
 
     return (
       <>
-        <Box display='flex'>
+        <Box display='inline-flex'>
             <Button onClick={onOpen} ml='auto' colorScheme='purple' >
                 <Icon as={FaUser} mr="2" fontSize='md' color='white' />
                 Add

@@ -12,8 +12,8 @@ export type ProjectType = {
     name: string;
     description: string;
     status: string;
-    clientId: number;
-    client: ClientType;
+    clientId?: string;
+    client?: ClientType;
 }
 
 export type Projects = {

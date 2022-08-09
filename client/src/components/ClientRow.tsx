@@ -16,7 +16,7 @@ const ClientRow = ({ client }: Props) => {
 
     const toast = useToast()
 
-    const [deleteClient, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation(DELETE_CLIENT, {
+    const [deleteClient, { loading: deleteLoading }] = useMutation(DELETE_CLIENT, {
         variables: { id: client.id },
         onCompleted({ deleteClient }) {
             toast({
@@ -25,12 +25,23 @@ const ClientRow = ({ client }: Props) => {
                 duration: 5000,
                 isClosable: true,
             })
-          },
+        },
+
+        onError(error) {
+            // open toast
+            toast({
+                title: 'Delete Failed',
+                description: error.message,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            })
+        },
         // COMM: refetchQueries make the queries to the server and uses the data to update the cache
-        // refetchQueries: [
-        //     // { query: GET_CLIENTS},
-        //     'getClients'
-        // ],
+        refetchQueries: [
+            // { query: GET_CLIENTS},
+            'getClients', 'getProjects'
+        ],
         // COMM: using the update callback we update the cache locally using the returned data from calling the mutate fnc (in this case deleteClient)
         // update(cache, { data: { deleteClient } }) {
         //     const cacheData: any = cache.readQuery({ query: GET_CLIENTS})
@@ -40,47 +51,23 @@ const ClientRow = ({ client }: Props) => {
         //         data: { clients: clients.filter((client: ClientType) => client.id !== deleteClient.id)}
         //     })
         // }
-        update(cache, { data: { deleteClient } }) {
-            cache.modify({
-                fields: {
-                    clients() {
-                        const cacheData: any = cache.readQuery({ query: GET_CLIENTS})
-                        const newClientData = cacheData.clients.filter((client: ClientType) => client.id !== deleteClient.id )
-                        return newClientData
-                    }
-                }
-            })
-        }
+        // COMM: cache.modify which is similar to cache.writeQuery. Check docs for differences
+        // update(cache, { data: { deleteClient } }) {
+        //     cache.modify({
+        //         fields: {
+        //             clients() {
+        //                 const cacheData: any = cache.readQuery({ query: GET_CLIENTS})
+        //                 const newClientData = cacheData.clients.filter((client: ClientType) => client.id !== deleteClient.id )
+        //                 return newClientData
+        //             }
+        //         }
+        //     })
+        // }
     })
 
     const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         deleteClient()
     }
-
-    useEffect(() => {
-        if (deleteError) {
-            toast({
-                title: 'Delete Failed',
-                description: "Something went wrong",
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            })
-            return
-        }
-        
-        if (deleteData) {
-            console.log({deleteData})
-            toast({
-                title: 'Deleted successfully',
-                status: 'success',
-                position: 'top',
-                duration: 5000,
-                isClosable: true,
-            })
-        }
-    }, [deleteError, deleteData])
-
 
     return (
         <Tr>

@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client"
 import { GET_PROJECTS } from "queries/projectQueries"
 import { ProjectType } from "types"
 import ProjectCard from "./ProjectCard"
-import { Flex, HStack } from "@chakra-ui/react"
+import { Flex, HStack, SimpleGrid } from "@chakra-ui/react"
 
 
 const Projects = () => {
@@ -13,7 +13,7 @@ const Projects = () => {
 
     return (
         <>
-            <Flex flexWrap='wrap' gap='6' py='6'>
+            <SimpleGrid minChildWidth={{sm: '250px', md: '300px'}} spacing={4} my={4}>
                 {!loading && !error && (
                     data.projects.length > 0 ? 
                     data.projects.map((project: ProjectType) => (
@@ -21,7 +21,7 @@ const Projects = () => {
                     ))
                     : <p>No Projects</p>
                 )} 
-            </Flex>
+            </SimpleGrid>
         </>
     )
 }

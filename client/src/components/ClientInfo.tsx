@@ -5,12 +5,12 @@ import { Box, Divider, Heading, List, ListIcon, ListItem } from "@chakra-ui/reac
 
 const ClientInfo = ({client}: {client: ClientType}) => {
   return (
-    <>
-        <Heading size={'md'} mt={8} color='gray.500'>
+    <Box>
+        <Heading size={'md'} color='gray.500'>
             Client Information
         </Heading>
 
-        <Box  p={3} border='1px' borderColor="blackAlpha.300" borderRadius="lg">
+        <Box mt={2} p={3} border='1px' borderColor="blackAlpha.300" borderRadius="lg">
             <List spacing={2} >
                 <ListItem>
                     <ListIcon as={FaIdBadge} color='blue.400' />
@@ -28,7 +28,7 @@ const ClientInfo = ({client}: {client: ClientType}) => {
                 </ListItem>
             </List>
         </Box>
-    </>
+    </Box>
   )
 }
 

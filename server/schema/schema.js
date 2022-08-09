@@ -92,11 +92,9 @@ const mutation = new GraphQLObjectType({
     addClient: {
       type: ClientType,
       args: {
-        name: {type: GraphQLNonNull(GraphQLString)},
-        email: {type: GraphQLNonNull(GraphQLString)},
-        phone: {type: NonEmptyString, required: true},
-        // phone: {type: NonEmptyString, required: true},
-        // phone: {type: GraphQLNonNull(GraphQLString)},
+        name: {type: GraphQLNonNull(NonEmptyString), required: true},
+        email: {type: GraphQLNonNull(NonEmptyString), required: true},
+        phone: {type: GraphQLNonNull(NonEmptyString), required: true},
       },
       resolve(parent, args) {
         const client = new Client ({
@@ -115,6 +113,11 @@ const mutation = new GraphQLObjectType({
         id: {type: GraphQLNonNull(GraphQLID)}
       },
       resolve(parent, args) {
+        Project.find({clientId: args.id}).then((projects) => {
+          projects.forEach(project => {
+            project.remove()
+          })
+        })
         return Client.findByIdAndRemove(args.id)
       }
     },
@@ -148,15 +151,16 @@ const mutation = new GraphQLObjectType({
     addProject: {
       type: ProjectType,
       args: {
-        name: {type: GraphQLNonNull(GraphQLString)},
-        description: {type: GraphQLNonNull(GraphQLString)},
+        name: {type: GraphQLNonNull(NonEmptyString)},
+        description: {type: GraphQLString},
         status: {
           type: StatusType,
           defaultValue: 'Not Started'
         },
-        clientId: { type: GraphQLNonNull(GraphQLID) }
+        clientId: { type: GraphQLID }
       },
       resolve(parent, args) {
+
         const project = new Project ({
           name: args.name,
           description:args.description,
@@ -184,7 +188,7 @@ const mutation = new GraphQLObjectType({
       type: ProjectType,
       args: {
         id: { type: GraphQLNonNull(GraphQLID) },
-        name: { type: GraphQLString},
+        name: { type: GraphQLNonNull(NonEmptyString)},
         description: { type: GraphQLString},
         status: { type: StatusType },
         clientId: { type: GraphQLID},
