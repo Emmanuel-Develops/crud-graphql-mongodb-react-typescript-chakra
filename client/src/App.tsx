@@ -1,4 +1,4 @@
-import { ChakraProvider, Container, VStack } from "@chakra-ui/react";
+import { ChakraProvider, Container } from "@chakra-ui/react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "components/Header";
