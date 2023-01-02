@@ -8,6 +8,8 @@ import theme from "theme";
 import Home from "pages/Home";
 import ProjectPage from "pages/ProjectPage";
 import NotFound from "pages/NotFound";
+import { envUrl } from "utils/envUrl";
+import { AuthContextProvider } from "context/authContext";
 
 // const cache = new InMemoryCache({
 //   typePolicies: {
@@ -28,24 +30,28 @@ import NotFound from "pages/NotFound";
 //   }
 // })
 
+const url = envUrl()
+
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_SERVER_URL,
+  uri:  url + "/graphql",
   cache: new InMemoryCache(),
 })
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <ApolloProvider client={client}>
-        <Router>
-          <Header />
-          <Container maxW="container.xl">
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='project/:id' element={<ProjectPage />} />
-              <Route path='*' element={<NotFound />} />
-            </Routes>
-          </Container>
-        </Router>
+        <AuthContextProvider>
+          <Router>
+            <Header />
+            <Container maxW="container.xl">
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='project/:id' element={<ProjectPage />} />
+                <Route path='*' element={<NotFound />} />
+              </Routes>
+            </Container>
+          </Router>
+        </AuthContextProvider>
       </ApolloProvider>
     </ChakraProvider>
   );

@@ -23,13 +23,20 @@ const port = process.env.PORT || 5000
 
 const app = express()
 
+const Auth = require("./api/v0/auth/auth")
+
 connectDB()
 
-app.use(cors())
-
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+}))
+app.use(express.json())
 app.get('/', function(req, res) {
     res.send('App working fine')
 })
+
+app.use('/auth', Auth)
 
 app.use('/graphql', graphqlHTTP({
     schema: schema, 

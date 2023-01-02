@@ -15,6 +15,7 @@ import {
   Skeleton,
   SkeletonText,
   Button,
+  Text,
 } from '@chakra-ui/react'
 
 // types
@@ -98,6 +99,7 @@ const Clients = () => {
 
   return (
     <>
+      <Text fontSize="16px" fontWeight="bold" >Clients</Text>
       {!loading && !error && (
         
         <TableContainer>
