@@ -1,5 +1,6 @@
 import { ChakraProvider, Container } from "@chakra-ui/react";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "components/Header";
 
@@ -10,6 +11,7 @@ import ProjectPage from "pages/ProjectPage";
 import NotFound from "pages/NotFound";
 import { envUrl } from "utils/envUrl";
 import { AuthContextProvider } from "context/authContext";
+import { storageService } from "auth/storageService";
 
 // const cache = new InMemoryCache({
 //   typePolicies: {
@@ -32,8 +34,23 @@ import { AuthContextProvider } from "context/authContext";
 
 const url = envUrl()
 
+const httpLink = createHttpLink({
+  uri: url + "/graphql",
+});
+const user = storageService.getData()
+
+const authLink = setContext((_, { headers }) => {
+  const token = user?.token
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
+
 const client = new ApolloClient({
-  uri:  url + "/graphql",
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 })
 function App() {
@@ -42,8 +59,8 @@ function App() {
       <ApolloProvider client={client}>
         <AuthContextProvider>
           <Router>
-            <Header />
             <Container maxW="container.xl">
+              <Header />
               <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='project/:id' element={<ProjectPage />} />

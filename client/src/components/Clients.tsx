@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { gql, useQuery } from '@apollo/client'
+import React, { useEffect, useRef, useState } from "react";
+import { gql, useQuery } from "@apollo/client";
 
 // chakra
 import {
@@ -9,45 +9,43 @@ import {
   Tfoot,
   Tr,
   Th,
-  Td, 
+  Td,
   TableCaption,
   TableContainer,
   Skeleton,
   SkeletonText,
   Button,
   Text,
-} from '@chakra-ui/react'
+  Box,
+} from "@chakra-ui/react";
 
 // types
-import { ClientType } from 'types'
+import { ClientType } from "types";
 
 // components
-import ClientRow from './ClientRow'
+import ClientRow from "./ClientRow";
 
 // queries
-import { GET_CLIENTS } from 'queries/clientQueries'
-import { DeleteIcon } from '@chakra-ui/icons'
-
-
+import { GET_CLIENTS } from "queries/clientQueries";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 const Clients = () => {
-
-  const { loading, error, data } = useQuery(GET_CLIENTS)
+  const { loading, error, data } = useQuery(GET_CLIENTS);
 
   // function skeletonDuplicates(amount = 1) {
   //   const elementArray = {}
   //   React.Children
   //   return (
   //     <>
-        
+
   //     </>
   //   )
   // }
 
-  if (loading) return (
-    
+  const LoadingSkeleton = () => {
+    return (
       <TableContainer>
-        <Table variant={'simple'}>
+        <Table variant={"simple"}>
           <Thead>
             <Tr>
               <Th>Name</Th>
@@ -59,51 +57,54 @@ const Clients = () => {
           <Tbody>
             <Tr>
               <Td>
-                <Skeleton height='10px' />
+                <Skeleton height="10px" />
               </Td>
               <Td>
-                <Skeleton height='10px' />
+                <Skeleton height="10px" />
               </Td>
               <Td>
-                <Skeleton height='10px' />
+                <Skeleton height="10px" />
               </Td>
-              
+
               <Td>
-                <Button variant='delete'>
-                    <DeleteIcon />
+                <Button variant="delete">
+                  <DeleteIcon />
                 </Button>
               </Td>
             </Tr>
             <Tr>
               <Td>
-                <Skeleton height='10px' />
+                <Skeleton height="10px" />
               </Td>
               <Td>
-                <Skeleton height='10px' />
+                <Skeleton height="10px" />
               </Td>
               <Td>
-                <Skeleton height='10px' />
+                <Skeleton height="10px" />
               </Td>
-              
+
               <Td>
-                <Button variant='delete'>
-                    <DeleteIcon />
+                <Button variant="delete">
+                  <DeleteIcon />
                 </Button>
               </Td>
             </Tr>
           </Tbody>
         </Table>
       </TableContainer>
-  )
-  if (error) return <p>something went wrong</p>
+    );
+  };
 
   return (
-    <>
-      <Text fontSize="16px" fontWeight="bold" >Clients</Text>
+    <Box mt={10}>
+      <Text fontSize="16px" fontWeight="bold" my={2} >
+        CLIENTS
+      </Text>
+      {loading && <LoadingSkeleton />}
+      {error && <p>something went wrong</p>}
       {!loading && !error && (
-        
         <TableContainer>
-          <Table variant={'striped'}>
+          <Table variant={"striped"}>
             <Thead>
               <Tr>
                 <Th>Name</Th>
@@ -119,12 +120,9 @@ const Clients = () => {
             </Tbody>
           </Table>
         </TableContainer>
-        
       )}
-    </>
-  )
-}
+    </Box>
+  );
+};
 
-export default Clients
-
-
+export default Clients;

@@ -19,17 +19,13 @@ router.post("/login", async (req, res) => {
                     message: verificationResponse.error,
                 });
             }
-            console.log(verificationResponse.payload)
             const payload = verificationResponse.payload
             const isExistingUser = await User.findOne({email: payload?.email})
 
             const user = isExistingUser ? isExistingUser : await createNewUser(payload?.given_name, payload?.family_name, payload?.email)
             const userId = user._id
-
-            console.log(user)
     
-            const token = generateJWT({email: payload?.email})
-            console.log(token)
+            const token = generateJWT({email: payload?.email, userId})
         
             res.status(201).json({
                 message: (isExistingUser ? "SigIn" : "SignUp") + " was successful",
