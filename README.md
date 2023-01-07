@@ -1,4 +1,4 @@
-# A simple Project Management APp with CRUD functionality built with GraphQL
+# A simple Project Management App with CRUD functionality built with GraphQL
 
 ## WHY
 
@@ -14,6 +14,10 @@ This project was built to practice and solidify my understanding of some librari
 
 As a frontend specialised dev, this project was an expose to backend and databases.\
 Next is hosting this repo as a FullStack app. I'll update this readme as soon as that is accomplished.
+
+Coming back to this project 6 months later, I added google signIn and authentication to the backend.
+The app can work with anonymous users and loggedIn users. Carried out some research for authentication with GraphQL.
+It's been quite a ride
 
 ## Available Scripts
 
