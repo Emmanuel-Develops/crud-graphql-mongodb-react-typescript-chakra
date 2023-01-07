@@ -6,7 +6,7 @@ import { mode } from '@chakra-ui/theme-tools'
 
 // 2. Add your color mode config
 const config: ThemeConfig = {
-  initialColorMode: 'system',
+  initialColorMode: 'light',
   useSystemColorMode: false,
 }
 
