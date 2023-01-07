@@ -32,7 +32,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "organise.vercel.app"],
+    origin: ["http://localhost:3000", "https://organise.vercel.app"],
     methods: "GET,POST,PUT,DELETE,OPTIONS",
   })
 );
