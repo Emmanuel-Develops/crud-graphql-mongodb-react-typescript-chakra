@@ -1,9 +1,9 @@
 import { ClientType } from "types"
 import { FaEnvelope, FaPhone, FaIdBadge } from "react-icons/fa"
-import { Box, Divider, Heading, List, ListIcon, ListItem } from "@chakra-ui/react"
+import { Box, Divider, Heading, List, ListIcon, ListItem, Skeleton } from "@chakra-ui/react"
 
 
-const ClientInfo = ({client}: {client: ClientType}) => {
+const ClientInfo = ({client, loading}: {client: ClientType | null | undefined, loading: boolean}) => {
   return (
     <Box>
         <Heading size={'md'} color='gray.500'>
@@ -14,17 +14,17 @@ const ClientInfo = ({client}: {client: ClientType}) => {
             <List spacing={2} >
                 <ListItem>
                     <ListIcon as={FaIdBadge} color='blue.400' />
-                    {client.name || 'N/A'}
+                    {loading ? <Skeleton /> : client?.name || 'N/A'}
                 </ListItem>
                 <Divider/>
                 <ListItem>
                     <ListIcon as={FaEnvelope} color='blue.400' />
-                    {client.email || 'N/A'}
+                    {loading ? <Skeleton /> : client?.email || 'N/A'}
                 </ListItem>
                 <Divider/>
                 <ListItem>
                     <ListIcon as={FaPhone} color='blue.400' />
-                    {client.phone || 'N/A'}
+                    {loading ? <Skeleton /> : client?.phone || 'N/A'}
                 </ListItem>
             </List>
         </Box>

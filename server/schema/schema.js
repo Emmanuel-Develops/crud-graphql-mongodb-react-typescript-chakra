@@ -6,9 +6,28 @@ const { NonEmptyString } = require('../scalars/scalars' )
 
 // Mongoose models
 const Project = require('../models/Project')
-const Client = require('../models/Client')
+const Client = require('../models/Client');
+const User = require('../models/User');
+const { resolve } = require('path');
 
 
+// Client Type
+const UserType = new GraphQLObjectType({
+  name: 'User',
+  fields: () => ({
+    id: { type: GraphQLID },
+    firstName: { type: GraphQLString },
+    lastName: { type: GraphQLString },
+    email: { type: GraphQLString },
+    picture: { type: GraphQLString },
+    projects: {
+      type: GraphQLList(ProjectType),
+      resolve: (parent, args) => {
+        return Project.find()
+      }
+    },
+  }),
+});
 // Client Type
 const ClientType = new GraphQLObjectType({
   name: 'Client',
@@ -34,7 +53,14 @@ const ProjectType = new GraphQLObjectType({
       resolve(parent, args) {
         return Client.findById(parent.clientId)
       }
-    }
+    },
+    userId: { type: GraphQLID},
+    user: { 
+      type: UserType,
+      resolve(parent, args) {
+        return User.findById(parent.userId)
+      }
+    },
   }),
 });
 
@@ -53,12 +79,44 @@ const StatusType = new GraphQLEnumType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
+    // test: {
+    //   type: GraphQLString,
+    //   resolve: (source, args, context) => {
+    //     console.log(context.auth.userId)
+    //     return "testing"
+    //   }
+    // },
+    profile: {
+      type: UserType,
+      resolve(parent, args, context) {
+        if (context?.auth?.userId) {
+          return User.findById(context.auth.userId);
+        }
+      }
+    },
     projects: {
       type: new GraphQLList(ProjectType),
-      resolve(parent, args) {
+      args: {userId: {type: GraphQLID}},
+      resolve(parent, args, context) {
+        if (args?.userId) {
+          if (context?.auth?.userId && (args.userId === context?.auth?.userId)) {
+            return Project.find({userId: context.auth.userId})
+          }
+          else {
+            return null
+          }
+        }
         return Project.find();
       }
     },
+    // myProjects: {
+    //   type: new GraphQLList(ProjectType),
+    //   resolve(parent, args, context) {
+    //     if (context?.auth?.userId) {
+    //       return User.findById(context.auth.userId);
+    //     }
+    //   },
+    // },
     project: {
       type: ProjectType,
       args: {id: {type: GraphQLID}},
@@ -142,7 +200,31 @@ const mutation = new GraphQLObjectType({
               phone: args.phone,
               test: args.test
             }
-          }
+          },
+          { new: true }
+        )
+      },
+    },
+    // update a user
+    updateProfile: {
+      type: UserType,
+      args: {
+        id: {type: GraphQLNonNull(GraphQLID)},
+        firstName: { type: GraphQLString},
+        lastName: { type: GraphQLString},
+        picture: { type: GraphQLString},
+      },
+      resolve: (parent, args) => {
+        return User.findByIdAndUpdate(
+          args.id,
+          {
+            $set: {
+              firstName: args.firstName,
+              lastName: args.lastName,
+              picture: args.picture,
+            }
+          },
+          { new: true }
         )
       },
     },
@@ -157,15 +239,23 @@ const mutation = new GraphQLObjectType({
           type: StatusType,
           defaultValue: 'Not Started'
         },
-        clientId: { type: GraphQLID }
+        clientId: { type: GraphQLID },
+        userId: { type: GraphQLID },
       },
-      resolve(parent, args) {
+      resolve(parent, args, context) {
+        let authUserId = null
+        if (args?.userId) {
+          if (context?.auth?.userId && (args.userId === context?.auth?.userId)) {
+            authUserId = args.userId
+          }
+        }
 
         const project = new Project ({
           name: args.name,
           description:args.description,
           status: args.status,
-          clientId: args.clientId 
+          clientId: args.clientId,
+          userId: authUserId, 
         })
 
         return project.save() 
@@ -192,6 +282,7 @@ const mutation = new GraphQLObjectType({
         description: { type: GraphQLString},
         status: { type: StatusType },
         clientId: { type: GraphQLID},
+        userId: { type: GraphQLID},
       },
       resolve(parent, args) {
         return Project.findByIdAndUpdate(
@@ -202,6 +293,7 @@ const mutation = new GraphQLObjectType({
               description: args.description,
               status: args.status,
               clientId: args.clientId,
+              userId: args.userId,
             }
           },
           { new: true }

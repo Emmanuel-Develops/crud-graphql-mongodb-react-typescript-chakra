@@ -21,9 +21,9 @@ router.post("/login", async (req, res) => {
             }
             const payload = verificationResponse.payload
             const isExistingUser = await User.findOne({email: payload?.email})
-
-            const user = isExistingUser ? isExistingUser : await createNewUser(payload?.given_name, payload?.family_name, payload?.email)
+            const user = isExistingUser ? isExistingUser : await createNewUser(payload?.given_name, payload?.family_name, payload?.email, payload?.picture)
             const userId = user._id
+            const {firstName, lastName, picture, email} = user
     
             const token = generateJWT({email: payload?.email, userId})
         
@@ -31,11 +31,11 @@ router.post("/login", async (req, res) => {
                 message: (isExistingUser ? "SigIn" : "SignUp") + " was successful",
                 user: {
                   userId,
-                  firstName: payload?.given_name,
-                  lastName: payload?.family_name,
-                  picture: payload?.picture,
-                  email: payload?.email,
-                  token,
+                  firstName,
+                  lastName,
+                  email,
+                  picture,
+                  token
                 },
               })
         }

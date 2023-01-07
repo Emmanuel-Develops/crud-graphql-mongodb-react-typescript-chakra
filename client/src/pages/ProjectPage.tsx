@@ -26,15 +26,6 @@ const ProjectPage = () => {
         }
     })
 
-
-    if (loading) {
-        return (
-            <Skeleton>
-
-            </Skeleton>
-        )
-    }
-
     if (error) {
         <Text>
             Something went wrong
@@ -43,7 +34,6 @@ const ProjectPage = () => {
 
     return (
         <Container maxW={"container.sm"}>
-            {data && !error && (
                 <Flex direction='column' p={8} mt={20} gap={6} border='1px' borderColor="blackAlpha.300" borderRadius="lg" color='gray.700' fontWeight={500} >
                     <Box ml='auto' mb='-6'>
                         <Link to='/'>
@@ -55,11 +45,11 @@ const ProjectPage = () => {
 
                     <Box>
                         <Heading size='xl' fontFamily='roboto' >
-                            {data.project.name}
+                            {loading ? <Skeleton height="20px" my="10px" /> : data && !error ? data.project.name : "N/A"}
                         </Heading>
 
                         <Text >
-                            {data.project.description || 'N/A'}
+                            {loading ? <Skeleton height="10px" my="5px" /> : data && !error ? data.project.description : 'N/A'}
                         </Text>
                     </Box>
 
@@ -68,17 +58,22 @@ const ProjectPage = () => {
                             Status
                         </Heading>
                         <Text >
-                            {data.project.status}
+                            {loading ? <Skeleton height="16px" my="5px" /> : data && !error ? data.project.status : 'N/A'}
                         </Text>
                     </Box>
 
-                    {data.project.client && <ClientInfo client={data.project.client} />}
+                    <ClientInfo client={data?.project?.client} loading={loading} />
 
-                    <EditProjectForm project={data.project} />
-                    <DeleteProjectButton projectId={data.project.id} />
+                    {
+                        data?.project && !error && (
+                            <>
+                                <EditProjectForm project={data.project} />
+                                <DeleteProjectButton projectId={data.project.id} />
+                            </>
+                        )
+                    }
                     
                 </Flex>
-            )}
         </Container>
     )
 }

@@ -12,13 +12,19 @@ const DELETE_PROJECT = gql`
 `
 
 const ADD_PROJECT = gql`
-    mutation addProject($name: NonEmptyString!, $description: String, $status: ProjectStatus, $clientId: ID) {
-        addProject(name: $name, description: $description, status: $status, clientId: $clientId) {
+    mutation addProject($name: NonEmptyString!, $description: String, $status: ProjectStatus, $clientId: ID, $userId: ID) {
+        addProject(name: $name, description: $description, status: $status, clientId: $clientId, userId: $userId) {
             id
             name
             description
             status
             clientId
+            userId
+            user {
+                firstName
+                lastName
+                picture
+            }
             client {
                 id
                 name

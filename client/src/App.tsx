@@ -49,6 +49,16 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
+// const client = new ApolloClient({
+//   uri: 'https://api.example.com',
+//   cache: new InMemoryCache(),
+//   headers: {
+//     authorization: localStorage.getItem('token'),
+//     'client-name': 'WidgetX Ecom [web]',
+//     'client-version': '1.0.0'
+//   }
+// });
+
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),

@@ -28,13 +28,16 @@ import { GET_CLIENTS } from "queries/clientQueries";
 import { GET_PROJECTS } from "queries/projectQueries";
 import { ADD_PROJECT } from "mutations/projectMutations";
 import { ClientType, ProjectType } from "types";
+import useAuth from "hooks/useAuth";
 
 const AddProjectModal = () => {
+
+  const { auth } = useAuth();
   interface UserData {
-      name: string,
-      description: string,
-      status: string,
-      clientId: string
+    name: string,
+    description: string,
+    status: string,
+    clientId: string,
   }
   // enum Status {
   //   new = "Not Started",
@@ -133,13 +136,14 @@ const AddProjectModal = () => {
 
     // send clientId to the server as null if clientId = ""
     const clientIdOnSave = (clientId || null) 
-    console.log({name, description, status, clientId, clientIdOnSave})
+    const userIdOnSave = (auth.userId || null) 
     addProject({
       variables: {
         name,
         description,
         status,
-        clientId: clientIdOnSave
+        clientId: clientIdOnSave,
+        userId: userIdOnSave,
       },
     });
 

@@ -24,7 +24,6 @@ const useBackendAuth = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setLoading(false)
         if (data.user) {
           onLogin(data.user);

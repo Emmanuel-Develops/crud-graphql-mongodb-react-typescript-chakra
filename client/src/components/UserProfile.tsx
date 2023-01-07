@@ -29,7 +29,6 @@ const UserProfile = ({ user, onLogout }: { user: userAuth, onLogout: () => void 
                     <Image
                         src={user?.picture ? user.picture : ""}
                         width={{ base: 8, md: 10 }}
-                        // height={10}
                         bgSize="cover"
                         borderRadius="full"
                     />

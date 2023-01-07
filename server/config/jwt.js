@@ -1,0 +1,3 @@
+const ENCODING_ALGORITHM = "HS256"
+
+module.exports = ENCODING_ALGORITHM

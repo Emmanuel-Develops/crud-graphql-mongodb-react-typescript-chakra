@@ -107,7 +107,7 @@ const EditProjectForm = ({ project }: { project: ProjectType }) => {
 
         // send clientId to the server as null if clientId = ""
         const clientIdOnSave = (clientId || null)
-        console.log({ name, description, status, clientId, clientIdOnSave })
+        // console.log({ name, description, status, clientId, clientIdOnSave })
         updateProject({
             variables: {
                 id: project.id,

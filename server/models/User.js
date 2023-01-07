@@ -9,6 +9,8 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String
+    }, picture: {
+        type: String,
     }
     // projectId: {
     //     type: mongoose.Schema.Types.ObjectId,
