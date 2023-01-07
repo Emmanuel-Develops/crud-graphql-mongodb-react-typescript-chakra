@@ -4,14 +4,12 @@ import {
     Badge,
   Box,
   Button,
-  Center,
   Icon,
   Input,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Select,
@@ -136,7 +134,7 @@ const AddProjectModal = () => {
 
     // send clientId to the server as null if clientId = ""
     const clientIdOnSave = (clientId || null) 
-    const userIdOnSave = (auth.userId || null) 
+    const userIdOnSave = (auth?.userId || null) 
     addProject({
       variables: {
         name,

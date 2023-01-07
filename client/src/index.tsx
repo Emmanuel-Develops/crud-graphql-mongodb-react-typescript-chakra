@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import { ColorModeScript } from "@chakra-ui/react"
 import theme from 'theme'
+import { AuthContextProvider } from 'context/authContext';
 
 
 const root = ReactDOM.createRoot(
@@ -12,6 +13,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-    <App />
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
   </React.StrictMode>
 );

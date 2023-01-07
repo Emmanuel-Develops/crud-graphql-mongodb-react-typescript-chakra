@@ -44,9 +44,8 @@ const ProjectCard = ({ project }: Props) => {
         boxShadow="md"
       >
         <Flex
-          align={"center"}
+          align={"flex-start"}
           justify="space-between"
-          minW="max-content"
           gap="10px"
         >
           <Heading fontSize={{ base: "16px", md: "20px" }} fontWeight="600">
@@ -76,6 +75,7 @@ const ProjectCard = ({ project }: Props) => {
                   {project.user.picture ? (
                     <Image
                     src={project.user.picture}
+                    referrerPolicy="no-referrer"
                     width="full"
                     bgSize="cover"
                     borderRadius="full"

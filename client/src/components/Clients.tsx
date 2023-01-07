@@ -96,7 +96,7 @@ const Clients = () => {
   };
 
   return (
-    <Box mt={10}>
+    <Box my={10}>
       <Text fontSize="16px" fontWeight="bold" my={2} >
         CLIENTS
       </Text>

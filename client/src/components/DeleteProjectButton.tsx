@@ -39,7 +39,7 @@ const DeleteProjectButton = ({ projectId }: { projectId: string }) => {
 
     return (
         <>
-            <Button isLoading={loading} onClick={() => deleteProject()} variant='delete' w={'fit-content'} ml='auto'>
+            <Button display={"inline-flex"} isLoading={loading} onClick={() => deleteProject()} variant='delete' w={'fit-content'} ml='auto'>
                 <Icon as={DeleteIcon} />
                 Delete Project
             </Button>

@@ -25,9 +25,10 @@ const UserProfile = ({ user, onLogout }: { user: userAuth, onLogout: () => void 
                     bgColor="purple.600"
                     borderRadius="md"
                 >
-                    <Flex gap={"5%"} alignItems="center">
+                    <Flex gap={"10px"} alignItems="center">
                     <Image
                         src={user?.picture ? user.picture : ""}
+                        referrerPolicy="no-referrer"
                         width={{ base: 8, md: 10 }}
                         bgSize="cover"
                         borderRadius="full"

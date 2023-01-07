@@ -123,7 +123,7 @@ const EditProjectForm = ({ project }: { project: ProjectType }) => {
 
     return (
         <>
-            <Box display='inline-flex' mx={4}>
+            <Box display='inline-flex'>
                 <Button onClick={onOpen} ml="auto" colorScheme="purple">
                     <Icon as={FaEdit} mr="2" fontSize="md" color="white" />
                     Update Project Details

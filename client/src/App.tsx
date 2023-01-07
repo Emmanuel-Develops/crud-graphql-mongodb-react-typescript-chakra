@@ -12,6 +12,7 @@ import NotFound from "pages/NotFound";
 import { envUrl } from "utils/envUrl";
 import { AuthContextProvider } from "context/authContext";
 import { storageService } from "auth/storageService";
+import useAuth from "hooks/useAuth";
 
 // const cache = new InMemoryCache({
 //   typePolicies: {
@@ -37,17 +38,17 @@ const url = envUrl()
 const httpLink = createHttpLink({
   uri: url + "/graphql",
 });
-const user = storageService.getData()
+// const user = storageService.getData()
 
-const authLink = setContext((_, { headers }) => {
-  const token = user?.token
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
-});
+// const authLink = setContext((_, { headers }) => {
+//   const token = user?.token
+//   return {
+//     headers: {
+//       ...headers,
+//       authorization: token ? `Bearer ${token}` : "",
+//     }
+//   }
+// });
 
 // const client = new ApolloClient({
 //   uri: 'https://api.example.com',
@@ -59,15 +60,23 @@ const authLink = setContext((_, { headers }) => {
 //   }
 // });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-})
+// const client = new ApolloClient({
+//   link: authLink.concat(httpLink),
+//   cache: new InMemoryCache(),
+// })
 function App() {
+  const {auth} = useAuth()
+  const token = auth?.token
+  const client = new ApolloClient({
+    uri: url + "/graphql",
+    cache: new InMemoryCache(),
+    headers: {
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  });
   return (
     <ChakraProvider theme={theme}>
       <ApolloProvider client={client}>
-        <AuthContextProvider>
           <Router>
             <Container maxW="container.xl">
               <Header />
@@ -78,7 +87,6 @@ function App() {
               </Routes>
             </Container>
           </Router>
-        </AuthContextProvider>
       </ApolloProvider>
     </ChakraProvider>
   );
