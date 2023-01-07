@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/google.accounts": "^0.0.5",
     "@types/jsonwebtoken": "^9.0.0",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
