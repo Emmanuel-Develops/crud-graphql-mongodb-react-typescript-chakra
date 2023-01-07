@@ -1,4 +1,4 @@
-# A simple TODO APP with CRUD function built with GraphQL
+# A simple Project Management APp with CRUD functionality built with GraphQL
 
 ## WHY
 
