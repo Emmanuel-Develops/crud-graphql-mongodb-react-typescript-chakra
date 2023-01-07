@@ -49,7 +49,7 @@ export const AuthContextProvider = ({children}: {children: React.ReactNode}) => 
 
   useEffect(() => {
     const data = storageService.getData()
-    if (!auth.token && data.token) {
+    if (!Boolean(auth?.token) && data?.token) {
       setAuth(data)
     }
   }, [auth])
